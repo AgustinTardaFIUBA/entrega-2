@@ -25,11 +25,11 @@ for i in range(121):
     fi0.append(1)
 
 for i in range(121):
-    fi0.append(i)
+    fi1.append(i)
 
 for i in range(121):
     iAlCuadrado = i**2
-    fi0.append(iAlCuadrado)
+    fi2.append(iAlCuadrado)
 for i in range(121):
     casosPorDia = (sheet.cell_value(i, 4))
     logaritmoDeCasos = np.log(casosPorDia)
@@ -42,14 +42,16 @@ fises.append(fi2)
 A = []
 b = []
 for i in range(3):
-    A[i].append([])
+    A.append([])
     for j in range(3):
-        A[i][j] = np.dot(fises[i], fises[j])
+        value = np.dot(fises[i], fises[j])
+        A[i].append(value)
 
 for i in range(3):
     result = np.dot(f, fises[i])
     b.append(result)
 
+print(A)
 print(np.linalg.solve(A, b))
 
 
