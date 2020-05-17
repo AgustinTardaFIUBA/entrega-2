@@ -2,6 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import xlrd
 
+def dot(unVec, otroVec):
+   result = 0
+   for j in range(121):
+       result = result + (unVec[int(j)]*otroVec[int(j)])
+   return result
+
 book = xlrd.open_workbook('Entrega2.xlsx')
 sheet = book.sheet_by_name('Sheet1')
 cantDias = []
@@ -22,16 +28,14 @@ fi2 = []
 f = []
 
 for i in range(121):
-    iAlCuadrado = -((i + 1) ** 2)
-    fi0.append(iAlCuadrado)
+    fi0.append(float(1))
 
 for i in range(121):
-    fi1.append(i+1)
-
+    fi1.append(float(i))
 
 for i in range(121):
-    fi2.append(1)
-
+    iAlCuadrado = i**2
+    fi2.append(float(iAlCuadrado))
 for i in range(121):
     casosPorDia = (sheet.cell_value(i, 4))
     logaritmoDeCasos = np.log(casosPorDia)
@@ -42,30 +46,38 @@ fises.append(fi1)
 fises.append(fi2)
 
 A = []
+B = []
 b = []
-
 for i in range(3):
     A.append([])
     for j in range(3):
         value = np.dot(fises[i], fises[j])
         A[i].append(value)
 
-for i in range(3):
-    result = np.dot(f, fises[i])
-    b.append(result)
+B.append([])
+B[0].append(float(dot(fi0, fi0)))
+B[0].append(float(dot(fi0, fi1)))
+B[0].append(float(dot(fi0, fi2)))
+B.append([])
+B[1].append(float(dot(fi1, fi0)))
+B[1].append(float(dot(fi1, fi1)))
+B[1].append(float(dot(fi1, fi2)))
+B.append([])
+B[2].append(float(dot(fi2, fi0)))
+B[2].append(float(dot(fi2, fi1)))
+B[2].append(float(dot(fi2, fi2)))
 
+b.append(float(dot(f, fi0)))
+b.append(float(dot(f, fi1)))
+b.append(float(dot(f, fi2)))
 
-x = []
-x = np.linalg.solve(A,b)
-print("\nObtenemos entonces:","\nCo:",x[0],"\nC1:",x[1],"\nC2:",x[2])
+x = np.linalg.solve(B, b)
+print("B:  ", B)
+print("A:  ", A)
+print(x)
+print(np.dot(A, x))
+print((np.dot(A, x)) == b)
 
-
-lista_f_estrella = []
-for i in fi1:
-    f_estrella = np.exp(x[2] + x[1] * float(i) - x[0] * (float(i) ** 2))
-    lista_f_estrella.append(f_estrella)
-for i in lista_f_estrella:  # valores
-    print(i)
 
 
 
