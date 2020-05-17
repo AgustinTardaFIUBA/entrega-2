@@ -22,14 +22,16 @@ fi2 = []
 f = []
 
 for i in range(121):
-    fi0.append(1)
+    iAlCuadrado = -((i + 1) ** 2)
+    fi0.append(iAlCuadrado)
 
 for i in range(121):
-    fi1.append(i)
+    fi1.append(i+1)
+
 
 for i in range(121):
-    iAlCuadrado = i**2
-    fi2.append(iAlCuadrado)
+    fi2.append(1)
+
 for i in range(121):
     casosPorDia = (sheet.cell_value(i, 4))
     logaritmoDeCasos = np.log(casosPorDia)
@@ -41,6 +43,7 @@ fises.append(fi2)
 
 A = []
 b = []
+
 for i in range(3):
     A.append([])
     for j in range(3):
@@ -51,8 +54,18 @@ for i in range(3):
     result = np.dot(f, fises[i])
     b.append(result)
 
-print(A)
-print(np.linalg.solve(A, b))
+
+x = []
+x = np.linalg.solve(A,b)
+print("\nObtenemos entonces:","\nCo:",x[0],"\nC1:",x[1],"\nC2:",x[2])
+
+
+lista_f_estrella = []
+for i in fi1:
+    f_estrella = np.exp(x[2] + x[1] * float(i) - x[0] * (float(i) ** 2))
+    lista_f_estrella.append(f_estrella)
+for i in lista_f_estrella:  # valores
+    print(i)
 
 
 
